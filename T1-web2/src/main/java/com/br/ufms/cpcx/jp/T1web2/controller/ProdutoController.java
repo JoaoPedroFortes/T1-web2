@@ -46,6 +46,17 @@ public class ProdutoController {
         } else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("{id}")
+    @ResponseBody
+    public ResponseEntity buscarPorId(@PathVariable("id") Long id,
+                                      @RequestHeader("login") String login,
+                                      @RequestHeader("senha") String senha) {
+        if (usuarioService.validaLogin(login, senha))
+            return new ResponseEntity(produtoService.buscarPorId(id), HttpStatus.OK);
+        else
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
     @PostMapping
     @ResponseBody
     public ResponseEntity<?> salvar(@RequestBody Produto produto,

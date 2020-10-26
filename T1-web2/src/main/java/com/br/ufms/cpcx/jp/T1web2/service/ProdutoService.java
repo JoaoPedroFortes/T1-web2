@@ -34,4 +34,8 @@ public class ProdutoService {
     public Object alterar(Produto produto) {
         return produtoRepository.save(produto);
     }
+
+    public Object buscarPorId(Long id) {
+        return produtoRepository.findById(id);
+    }
 }
