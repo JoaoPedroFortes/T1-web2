@@ -28,7 +28,7 @@ public class Usuario {
     private String senha;
 
     @Column(name = "USU_ISADMIN")
-    private boolean isAdministrador;
+    private Boolean isAdministrador;
 
     public Usuario(long id, Pessoa pessoa, String login, String senha ) {
         this.id = id;

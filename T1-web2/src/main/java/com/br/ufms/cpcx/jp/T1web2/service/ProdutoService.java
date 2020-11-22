@@ -1,10 +1,11 @@
 package com.br.ufms.cpcx.jp.T1web2.service;
 
+
 import com.br.ufms.cpcx.jp.T1web2.entity.Produto;
+
 import com.br.ufms.cpcx.jp.T1web2.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -14,13 +15,14 @@ public class ProdutoService {
 
     public List<Produto> buscarTodos() {
 
-        return produtoRepository.findAll();
+       return produtoRepository.findAll();
+
     }
 
     public List<Produto> produtosMenorIdade() {
-        List <Produto> produtos = produtoRepository.produtosMenorIdade();
-        return produtos; }
-
+        List<Produto> produtos = produtoRepository.produtosMenorIdade();
+        return produtos;
+    }
 
 
     public Produto salvar(Produto produto) {

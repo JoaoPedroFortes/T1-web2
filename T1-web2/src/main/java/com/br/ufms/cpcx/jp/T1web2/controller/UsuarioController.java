@@ -1,7 +1,6 @@
 package com.br.ufms.cpcx.jp.T1web2.controller;
 
 
-import com.br.ufms.cpcx.jp.T1web2.dto.UsuarioDTO;
 import com.br.ufms.cpcx.jp.T1web2.entity.Usuario;
 import com.br.ufms.cpcx.jp.T1web2.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -31,7 +31,7 @@ public class UsuarioService {
     }
 
     public Object buscarPorId(long id) {
-        return usuarioRepository.findById(id);
+       return usuarioRepository.findById(id);
     }
 
     public Object alterar(Usuario body) {
@@ -39,37 +39,29 @@ public class UsuarioService {
     }
 
     public boolean validaLogin(String login, String senha) {
-        List<Usuario> usuarios = buscarTodos();
-        for (Usuario usuario : usuarios) {
-            if (usuario.getLogin().equals(login) && usuario.getSenha().equals(senha)) {
-                return true;
-            }
+        Usuario usuario = usuarioRepository.getUsuario(login);
+        if(usuario.getSenha().equals(senha)){
+            return true;
         }
-        return false;
+        throw new RuntimeException("usuario ou senha incorretos");
     }
 
     public boolean isAdmin(String login, String senha) {
-        List<Usuario> usuarios = buscarTodos();
-        for (Usuario usuario : usuarios) {
-            if (usuario.getLogin().equals(login) && usuario.getSenha().equals(senha)) {
-                if (usuario.isAdministrador()) {
-                    return true;
-                }else return false;
-
-            }
+        validaLogin(login,senha);
+        if(usuarioRepository.isAdministrador(login)){
+            return true;
+        }else{
+            throw new RuntimeException("usuario não é admin");
         }
-        return false;
 
     }
 
     public Usuario retornaUsuario(String login, String senha) {
-        List<Usuario> usuarios = buscarTodos();
-        for (Usuario usuario : usuarios) {
-            if (usuario.getLogin().equals(login) && usuario.getSenha().equals(senha)) {
-                return usuario;
-            }
-        }
-        return null;
+       Usuario usuario = usuarioRepository.getUsuario(login);
+       if(usuario.getSenha().equals(senha)){
+           return usuario;
+       }
+        throw new RuntimeException("usuario ou senha incorreto(a)");
     }
 
     public boolean validaMaioridade(Pessoa pessoa) {
@@ -79,13 +71,7 @@ public class UsuarioService {
         return false;
     }
 
-    public Pessoa retornaPessoa(Usuario usuario) {
-        List<Pessoa> pessoas = pessoaService.buscarTodos();
-        for (Pessoa pessoa : pessoas) {
-            if (pessoa.getId().equals(usuario.getPessoa().getId())) {
-                return pessoa;
-            }
-        }
-        return null;
+    public Pessoa retornaPessoa(Long usuarioId) {
+        return usuarioRepository.retornaPessoa(usuarioId);
     }
 }
