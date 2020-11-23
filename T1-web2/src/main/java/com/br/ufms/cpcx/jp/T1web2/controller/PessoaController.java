@@ -43,16 +43,16 @@ public class PessoaController {
 
     }
 
-//    @GetMapping("{id}")
-//    @ResponseBody
-//    public ResponseEntity buscarPorId(@PathVariable("id") Long id,
-//                                      @RequestHeader("login") String login,
-//                                      @RequestHeader("senha") String senha) {
-//        if (usuarioService.validaLogin(login, senha))
-//            return new ResponseEntity(pessoaService.buscarPorId(id), HttpStatus.OK);
-//        else
-//            return new ResponseEntity(HttpStatus.NO_CONTENT);
-//    }
+    @GetMapping("{id}")
+    @ResponseBody
+    public ResponseEntity buscarPorId(@PathVariable("id") Long id,
+                                      @RequestHeader("login") String login,
+                                      @RequestHeader("senha") String senha) {
+        if (usuarioService.validaLogin(login, senha))
+            return new ResponseEntity(pessoaService.buscarPorId(id), HttpStatus.OK);
+        else
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
 
 
 
