@@ -33,7 +33,7 @@ public class Pessoa {
     @Enumerated(EnumType.STRING)
     private TipoPessoa tipoPessoa;
 
-    @Column(name = "PES_SITUACAO")
+    @Column(name = "PES_SITUACAO", nullable = false)
     private Situacao situacao;
 
     @Column(name = "PES_NOME")

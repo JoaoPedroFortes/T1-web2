@@ -20,27 +20,40 @@ public class PessoaController {
     @Autowired
     private UsuarioService usuarioService;
 
+//    @GetMapping
+//    @ResponseBody
+//    public ResponseEntity<?> buscarTodos(@RequestHeader("login") String login,
+//                                         @RequestHeader("senha") String senha) {
+//
+//        if (usuarioService.validaLogin(login, senha))
+//            return new ResponseEntity(pessoaService.buscarTodos(), HttpStatus.OK);
+//        else
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    }
+
     @GetMapping
     @ResponseBody
-    public ResponseEntity<?> buscarTodos(@RequestHeader("login") String login,
-                                         @RequestHeader("senha") String senha) {
+    public ResponseEntity<?> buscarStream(@RequestHeader("login") String login,
+                                          @RequestHeader("senha") String senha,
+                                          @RequestParam(value = "IdResponsavel", required = false) String idResponsavel,
+                                          @RequestParam(value = "nomeResponsavel", required = false) String nomeResponsavel,
+                                          @RequestParam(value = "tipoPessoa", required = false) String tipoPessoa,
+                                          @RequestParam(value = "situacao", required = false) String situacao){
+       return new ResponseEntity<>(pessoaService.bucasStream(idResponsavel, nomeResponsavel, tipoPessoa,situacao), HttpStatus.OK);
 
-        if (usuarioService.validaLogin(login, senha))
-            return new ResponseEntity(pessoaService.buscarTodos(), HttpStatus.OK);
-        else
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("{id}")
-    @ResponseBody
-    public ResponseEntity buscarPorId(@PathVariable("id") Long id,
-                                      @RequestHeader("login") String login,
-                                      @RequestHeader("senha") String senha) {
-        if (usuarioService.validaLogin(login, senha))
-            return new ResponseEntity(pessoaService.buscarPorId(id), HttpStatus.OK);
-        else
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
-    }
+//    @GetMapping("{id}")
+//    @ResponseBody
+//    public ResponseEntity buscarPorId(@PathVariable("id") Long id,
+//                                      @RequestHeader("login") String login,
+//                                      @RequestHeader("senha") String senha) {
+//        if (usuarioService.validaLogin(login, senha))
+//            return new ResponseEntity(pessoaService.buscarPorId(id), HttpStatus.OK);
+//        else
+//            return new ResponseEntity(HttpStatus.NO_CONTENT);
+//    }
+
 
 
     @PostMapping

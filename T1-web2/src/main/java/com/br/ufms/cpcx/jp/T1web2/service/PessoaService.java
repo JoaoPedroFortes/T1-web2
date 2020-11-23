@@ -12,7 +12,11 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class PessoaService {
@@ -71,5 +75,43 @@ public class PessoaService {
         }
         int anoNascimento = dataNascimento.getYear();
         return ano - anoNascimento;
+    }
+
+    public List<?> bucasStream(String idResponsavel, String nomeResponsavel, String tipoPessoa, String situacao) {
+        Stream<Pessoa> busca;
+        busca = pessoaRepository.findAll().stream()
+                .filter(pessoa -> {
+                    if (Objects.nonNull(idResponsavel)) {
+                        if (pessoa.getResponsavel() != null) {
+                            return pessoa.getResponsavel().getId().toString().equals(idResponsavel);
+                        } else {
+                            return false;
+                        }
+                    }
+                    return true;
+                }).filter(pessoa -> {
+                    if (Objects.nonNull(nomeResponsavel)) {
+                        if (pessoa.getResponsavel() != null) {
+                            return pessoa.getResponsavel().getNome().equals(nomeResponsavel);
+                        } else {
+                            return false;
+                        }
+                    }
+                    return true;
+
+                }).filter(pessoa -> {
+                    if (Objects.nonNull(tipoPessoa)) {
+                        return pessoa.getTipoPessoa().name().equals(tipoPessoa.toUpperCase());
+                    }
+                    return true;
+                }).filter(pessoa -> {
+                    if (Objects.nonNull(situacao)) {
+                        return pessoa.getSituacao().name().equals(situacao.toUpperCase());
+                    }else {
+                        return true;
+                    }
+                })
+                .sorted(Comparator.comparing(Pessoa::getId));
+        return busca.collect(Collectors.toList());
     }
 }

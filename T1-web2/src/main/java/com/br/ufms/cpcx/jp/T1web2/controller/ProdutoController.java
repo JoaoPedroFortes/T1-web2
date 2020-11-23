@@ -31,10 +31,17 @@ public class ProdutoController {
     @Autowired
     private PessoaService pessoaService;
 
+
+
+
     @GetMapping
     @ResponseBody
-    public ResponseEntity<?> buscarTodos(@RequestHeader("login") String login,
-                                         @RequestHeader("senha") String senha) {
+    public ResponseEntity<?> buscarStream(@RequestHeader("login") String login,
+                                          @RequestHeader("senha") String senha,
+                                          @RequestParam(value = "descricao", required = false) String descricao,
+                                          @RequestParam(value = "precoMinimo", required = false) Double precoMinimo,
+                                          @RequestParam(value = "precoMaximo", required = false) Double precoMaximo
+                                        ){
 
         Usuario usuario = usuarioService.retornaUsuario(login, senha);
         Pessoa pessoa = usuarioService.retornaPessoa(usuario.getPessoa().getId());
@@ -42,19 +49,19 @@ public class ProdutoController {
             if (pessoa.getTipoPessoa().equals(TipoPessoa.FISICA)) {
                 List<ProdutoPessoaFisicaDTO> produtoPessoaFisicaDTOList = new ArrayList<>();
                 if (!usuarioService.validaMaioridade(pessoa)) {
-                    List<Produto> listMenorIdade = produtoService.produtosMenorIdade();
+                    List<Produto> listMenorIdade = produtoService.produtosMenorIdade(descricao,precoMinimo,precoMaximo);
                     for (Produto p : listMenorIdade) {
                         produtoPessoaFisicaDTOList.add(new ProdutoPessoaFisicaDTO().gerarProdutoPessoaFisica(p));
                     }
                 } else {
-                    List<Produto> list = produtoService.buscarTodos();
+                    List<Produto> list = produtoService.buscarTodos(descricao,precoMinimo,precoMaximo);
                     for (Produto p : list) {
                         produtoPessoaFisicaDTOList.add(new ProdutoPessoaFisicaDTO().gerarProdutoPessoaFisica(p));
                     }
                 }
                 return new ResponseEntity(produtoPessoaFisicaDTOList, HttpStatus.OK);
             } else {
-                List<Produto> list = produtoService.buscarTodos();
+                List<Produto> list = produtoService.buscarTodos(descricao,precoMinimo,precoMaximo);
                 List<ProdutoPessoaJuridicaDTO> produtoPessoaJuridicaDTOList = new ArrayList<>();
                 for (Produto p : list) {
                     produtoPessoaJuridicaDTOList.add(new ProdutoPessoaJuridicaDTO().gerarProdutoPessoaJuridica(p));
